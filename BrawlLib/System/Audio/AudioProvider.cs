@@ -35,18 +35,6 @@ namespace BrawlLib.LoopSelection
                 }
             }
 
-#if BRAWLLIB_AUDIO
-#else            
-            if (device == null && AvailableTypes.HasFlag(AudioProviderType.OpenAL))
-            {
-                try
-                {
-                    return new alAudioProvider();
-                }
-                catch (TypeInitializationException) { }
-            }
-#endif
-
             return null;
         }
 

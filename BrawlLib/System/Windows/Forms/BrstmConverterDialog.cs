@@ -1,12 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-#if BRAWLLIB_AUDIO
-#else
-using BrawlLib.IO;
-using BrawlLib.SSBBTypes;
-using BrawlLib.Wii.Audio;
-#endif
 
 namespace BrawlLib.LoopSelection
 {
@@ -583,16 +577,6 @@ namespace BrawlLib.LoopSelection
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string AudioSource { get { return _audioSource; } set { _audioSource = value; } }
 
-#if BRAWLLIB_AUDIO
-        private object _audioData { set { } }
-#else
-        private FileMap _audioData;
-        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public FileMap AudioData { get { return _audioData; } set { _audioData = value; } }
-
-        private static WaveEncoding PreviousEncoding = WaveEncoding.ADPCM;
-#endif
-
         private AudioProvider _provider;
         private AudioBuffer _buffer;
 
@@ -602,21 +586,6 @@ namespace BrawlLib.LoopSelection
         private DateTime _sampleTime;
         private bool _playing = false;
         private bool _updating = false;
-
-#if BRAWLLIB_AUDIO
-#else
-        public BrstmConverterDialog()
-        {
-            InitializeComponent();
-            ddlEncoding.Items.Clear();
-            ddlEncoding.Items.Add(WaveEncoding.ADPCM);
-            ddlEncoding.Items.Add(WaveEncoding.PCM16);
-            ddlEncoding.SelectedItem = PreviousEncoding;
-            tmrUpdate.Interval = 1000 / 60;
-            dlgOpen.Filter = "PCM Audio (*.wav)|*.wav";
-            MaximumSize = new Drawing.Size(int.MaxValue, 216);
-        }
-#endif
 
         public BrstmConverterDialog(IAudioStream audioStream)
         {
@@ -629,7 +598,6 @@ namespace BrawlLib.LoopSelection
 
         new public DialogResult ShowDialog(IWin32Window owner)
         {
-            _audioData = null;
             DialogResult = DialogResult.Cancel;
             //try 
             //{ 
@@ -728,12 +696,7 @@ namespace BrawlLib.LoopSelection
             DisposeSource();
 
             //Get audio stream
-#if BRAWLLIB_AUDIO
             _sourceStream = _initialStream;
-#else
-            _sourceStream = _initialStream ?? WAV.FromFile(path);
-#endif
-
             _audioSource = path;
 
             //Create buffer for stream
@@ -908,25 +871,6 @@ namespace BrawlLib.LoopSelection
         private void btnOkay_Click(object sender, EventArgs e)
         {
             Stop();
-#if BRAWLLIB_AUDIO
-#else
-            if (_initialStream == null)
-                using (ProgressWindow progress = new ProgressWindow(this, String.Format("{0} Converter", _type == 0 ? "Brstm" : "Wave"), "Encoding, please wait...", false))
-                    switch (_type)
-                    {
-                        case 0:
-                            var encoding = (WaveEncoding)ddlEncoding.SelectedItem;
-                            PreviousEncoding = encoding;
-                            _audioData = RSTMConverter.Encode(_sourceStream, progress, encoding);
-                            break;
-                        case 1:
-                            _audioData = RSARWaveConverter.Encode(_sourceStream, progress);
-                            break;
-                        case 2:
-                            _audioData = RWAVConverter.Encode(_sourceStream, progress);
-                            break;
-                    }
-#endif
 
             DialogResult = DialogResult.OK;
             Close();
