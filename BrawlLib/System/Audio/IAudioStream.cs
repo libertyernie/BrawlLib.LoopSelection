@@ -19,7 +19,7 @@
         /// <param name="destAddr">The address at which to start writing samples.</param>
         /// <param name="numSamples">The maximum number of samples to read.</param>
         /// <returns>The actual number of samples read (per channel).</returns>
-        int ReadSamples(VoidPtr destAddr, int numSamples);
+        int ReadSamples(IntPtr destAddr, int numSamples);
 
         //Wraps the stream to the loop context.
         //Must be used manually in order to track stream state. (Just good coding practice)

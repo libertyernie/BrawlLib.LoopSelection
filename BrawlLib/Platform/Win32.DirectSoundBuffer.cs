@@ -58,7 +58,7 @@ namespace System
             internal struct DSBufferPositionNotify
             {
                 public uint dwOffset;
-                public VoidPtr hEventNotify;
+                public IntPtr hEventNotify;
             }
 
             #endregion

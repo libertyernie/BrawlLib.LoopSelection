@@ -41,7 +41,7 @@
             loop = loop && stream.IsLooping;
             int lastSample = loop ? stream.LoopEndSample : stream.Samples;
 
-            VoidPtr blockAddr = _part1Address;
+            IntPtr blockAddr = _part1Address;
             int blockRemaining = _part1Samples;
 
             while (sampleCount > 0)
