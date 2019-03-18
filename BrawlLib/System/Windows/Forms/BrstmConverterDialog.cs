@@ -1,13 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Windows.Forms;
 #if BRAWLLIB_AUDIO
 #else
 using BrawlLib.IO;
 using BrawlLib.SSBBTypes;
 using BrawlLib.Wii.Audio;
 #endif
-using System.Audio;
 
-namespace System.Windows.Forms
+namespace BrawlLib.LoopSelection
 {
     public class BrstmConverterDialog : Form
     {
@@ -94,7 +95,7 @@ namespace System.Windows.Forms
             this.chkLoopEnable = new System.Windows.Forms.CheckBox();
             this.dlgOpen = new System.Windows.Forms.OpenFileDialog();
             this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
-            this.customTrackBar1 = new System.Windows.Forms.CustomTrackBar();
+            this.customTrackBar1 = new BrawlLib.LoopSelection.CustomTrackBar();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.ddlEncoding = new System.Windows.Forms.ComboBox();
@@ -623,7 +624,7 @@ namespace System.Windows.Forms
             this.Text = "Loop Point Definition";
             InitializeComponent();
             tmrUpdate.Interval = 1000 / 60;
-            MaximumSize = new Drawing.Size(int.MaxValue, 216);
+            MaximumSize = new System.Drawing.Size(int.MaxValue, 216);
         }
 
         new public DialogResult ShowDialog(IWin32Window owner)

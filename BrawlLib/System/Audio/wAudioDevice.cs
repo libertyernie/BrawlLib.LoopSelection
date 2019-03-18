@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace System.Audio
+namespace BrawlLib.LoopSelection
 {
     unsafe class wAudioDevice : AudioDevice
     {

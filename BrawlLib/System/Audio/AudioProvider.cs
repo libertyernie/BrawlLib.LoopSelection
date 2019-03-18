@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System;
 
-namespace System.Audio
+namespace BrawlLib.LoopSelection
 {
     public abstract class AudioProvider : IDisposable
     {

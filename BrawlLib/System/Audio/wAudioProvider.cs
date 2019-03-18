@@ -1,8 +1,9 @@
 ﻿using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using DS = System.Win32.DirectSound;
+using DS = BrawlLib.LoopSelection.Win32.DirectSound;
+using System;
 
-namespace System.Audio
+namespace BrawlLib.LoopSelection
 {
     unsafe class wAudioProvider : AudioProvider
     {

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace System.Audio
+namespace BrawlLib.LoopSelection
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct WaveFormatEx

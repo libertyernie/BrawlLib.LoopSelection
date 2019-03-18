@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
-using System.Audio;
+using System;
 
-namespace System
+namespace BrawlLib.LoopSelection
 {
     static partial class Win32
     {

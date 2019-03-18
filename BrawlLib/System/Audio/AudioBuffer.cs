@@ -1,4 +1,6 @@
-﻿namespace System.Audio
+﻿using System;
+
+namespace BrawlLib.LoopSelection
 {
     public abstract class AudioBuffer : IDisposable
     {

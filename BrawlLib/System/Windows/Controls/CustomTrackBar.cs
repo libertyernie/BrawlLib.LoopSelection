@@ -1,4 +1,7 @@
-﻿namespace System.Windows.Forms
+﻿using System;
+using System.Windows.Forms;
+
+namespace BrawlLib.LoopSelection
 {
     public class CustomTrackBar : TrackBar
     {

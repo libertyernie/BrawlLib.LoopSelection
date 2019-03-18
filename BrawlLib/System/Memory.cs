@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using System;
 
-namespace System
+namespace BrawlLib.LoopSelection
 {
     public unsafe static class Memory
     {
