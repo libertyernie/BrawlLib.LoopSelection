@@ -113,13 +113,6 @@ namespace BrawlLib.SSBBTypes
         private VoidPtr Address { get { fixed (void* ptr = &this)return ptr; } }
     }
 
-    public enum WaveEncoding
-    {
-        PCM8 = 0,
-        PCM16 = 1,
-        ADPCM = 2
-    }
-
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct AudioFormatInfo
     {

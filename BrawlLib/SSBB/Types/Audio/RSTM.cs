@@ -62,7 +62,7 @@ namespace BrawlLib.SSBBTypes
 
         private VoidPtr Address { get { fixed (void* ptr = &this)return ptr; } }
 
-        public void Set(int size, int channels, WaveEncoding encoding)
+        public void Set(int size, int channels)
         {
             RuintList* list;
             VoidPtr offset = _entries.Address;
@@ -95,26 +95,17 @@ namespace BrawlLib.SSBBTypes
                 //Set initial pointer
                 list->Entries[i] = dataOffset;
 
-                if (encoding == WaveEncoding.ADPCM)
-                {
-                    //Set embedded pointer
-                    *(ruint*)(offset + dataOffset) = dataOffset + 8;
-                    dataOffset += 8;
+                //Set embedded pointer
+                *(ruint*)(offset + dataOffset) = dataOffset + 8;
+                dataOffset += 8;
 
-                    //Set info
-                    //*(ADPCMInfo*)(offset + dataOffset) = info[i];
-                    dataOffset += ADPCMInfo.Size;
+                //Set info
+                //*(ADPCMInfo*)(offset + dataOffset) = info[i];
+                dataOffset += ADPCMInfo.Size;
 
-                    //Set padding
-                    //*(short*)(offset + dataOffset) = 0;
-                    //dataOffset += 2;
-                }
-                else
-                {
-                    //Set embedded pointer
-                    *(ruint*)(offset + dataOffset) = 0;
-                    dataOffset += 8;
-                }
+                //Set padding
+                //*(short*)(offset + dataOffset) = 0;
+                //dataOffset += 2;
             }
 
             //Fill remaining
