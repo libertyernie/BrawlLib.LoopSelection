@@ -23,6 +23,16 @@ namespace System
                     else
                         Linux.memmove(dst, src, size);
                     break;
+                default:
+                    byte* from = (byte*)src.address;
+                    byte* to = (byte*)dst.address;
+                    if (src < dst)
+                        for (uint i = size - 1; i >= 0; i--)
+                            to[i] = from[i];
+                    else if (src > dst)
+                        for (uint i = 0; i < size; i++)
+                            to[i] = from[i];
+                    break;
             }
         }
 
@@ -46,8 +56,13 @@ namespace System
                         goto case PlatformID.MacOSX;
                     else
                         Linux.memset(dest, value, length); 
-                    break; 
-                }
+                    break;
+                    }
+                default:
+                    byte* to = (byte*)dest.address;
+                    for (uint i = 0; i < length; i++)
+                        to[i] = value;
+                    break;
             }
         }
     }
