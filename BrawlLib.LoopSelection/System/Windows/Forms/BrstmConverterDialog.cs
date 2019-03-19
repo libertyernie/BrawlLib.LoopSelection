@@ -6,7 +6,46 @@ namespace BrawlLib.LoopSelection
 {
     public class BrstmConverterDialog : Form
     {
-#region Designer
+        internal class InitialStreamWrapper : IAudioStream
+        {
+            public readonly IAudioStream BaseStream;
+
+            public InitialStreamWrapper(IAudioStream baseStream)
+            {
+                BaseStream = baseStream ?? throw new ArgumentNullException(nameof(baseStream));
+
+                IsLooping = BaseStream.IsLooping;
+                LoopStartSample = BaseStream.LoopStartSample;
+                LoopEndSample = BaseStream.LoopEndSample;
+            }
+
+            public WaveFormatTag Format => BaseStream.Format;
+            public int BitsPerSample => BaseStream.BitsPerSample;
+            public int Samples => BaseStream.Samples;
+            public int Channels => BaseStream.Channels;
+            public int Frequency => BaseStream.Frequency;
+
+            public bool IsLooping { get; set; }
+            public int LoopStartSample { get; set; }
+            public int LoopEndSample { get; set; }
+
+            public int SamplePosition {
+                get {
+                    return BaseStream.SamplePosition;
+                }
+                set {
+                    BaseStream.SamplePosition = value;
+                }
+            }
+
+            public int ReadSamples(IntPtr destAddr, int numSamples) => BaseStream.ReadSamples(destAddr, numSamples);
+
+            public void Wrap() => BaseStream.Wrap();
+
+            public void Dispose() { }
+        }
+
+        #region Designer
 
         private Button btnOkay;
         private Button btnCancel;
@@ -696,7 +735,7 @@ namespace BrawlLib.LoopSelection
             DisposeSource();
 
             //Get audio stream
-            _sourceStream = _initialStream;
+            _sourceStream = new InitialStreamWrapper(_initialStream);
             _audioSource = path;
 
             //Create buffer for stream
@@ -872,6 +911,12 @@ namespace BrawlLib.LoopSelection
         {
             Stop();
 
+            if (_sourceStream is InitialStreamWrapper w && w.BaseStream == _initialStream)
+            {
+                _initialStream.LoopStartSample = _sourceStream.LoopStartSample;
+                _initialStream.LoopEndSample = _sourceStream.LoopEndSample;
+                _initialStream.IsLooping = _sourceStream.IsLooping;
+            }
             DialogResult = DialogResult.OK;
             Close();
         }
